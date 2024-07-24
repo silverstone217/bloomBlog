@@ -92,7 +92,7 @@ model Blog{
   image       String
   isBanned    Boolean @default(false)
   genre       String
-  tags        String[]
+  tags        String?
   authorId    String   
   author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())

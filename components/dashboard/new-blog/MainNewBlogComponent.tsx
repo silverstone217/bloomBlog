@@ -3,6 +3,15 @@ import React, { useEffect, useState } from "react";
 import Tiptap from "./TipTap";
 import Image from "next/image";
 import { genreData } from "@/utils/data";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
+import { storage } from "@/lib/firebase";
+import { v4 } from "uuid";
+import { useSession } from "next-auth/react";
 
 const MainNewBlogComponent = () => {
   const [title, setTitle] = useState("");
@@ -13,6 +22,9 @@ const MainNewBlogComponent = () => {
 
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const { data: session } = useSession();
+  const user = session?.user;
 
   const [isClient, setIsClient] = useState(false);
 
@@ -26,6 +38,88 @@ const MainNewBlogComponent = () => {
 
   const handleContentChange = (reason: any) => {
     setContent(reason);
+  };
+
+  const uploadImage = async () => {
+    let imageUrl = "";
+    if (!image) return;
+    const imageId = v4().toString().replace(/-/g, "").toLowerCase();
+    const storageRef = ref(storage, `bloom/blog/images/${imageId}`);
+
+    await uploadBytes(storageRef, image).then(async (snapshot) => {
+      console.log("Uploaded a blob or file!");
+      imageUrl = await getDownloadURL(snapshot.ref);
+    });
+    return imageUrl;
+  };
+
+  const deleteImage = async (imageUrl: string) => {
+    try {
+      // Créez une référence de stockage à partir de l'URL de l'image
+      const storageRef = ref(storage, imageUrl);
+      await deleteObject(storageRef);
+    } catch (error) {
+      console.error("Erreur lors de la suppression de l'image:", error);
+    }
+  };
+
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    setError(null);
+    let imageUrl;
+
+    try {
+      if (
+        !content ||
+        genre.replace(/ /g, "") === "" ||
+        title.replace(/ /g, "") === "" ||
+        !user
+      ) {
+        return;
+      }
+
+      imageUrl = await uploadImage();
+
+      if (!imageUrl) {
+        throw new Error("Failed to upload image");
+      }
+
+      const formData = {
+        title,
+        content,
+        genre,
+        image: imageUrl,
+        // authorId: user.id,
+        tags: tags,
+      };
+
+      const response = await fetch("/api/blog/new", {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const dataResponse = await response.json();
+
+      if (dataResponse.error === true) {
+        imageUrl && (await deleteImage(imageUrl));
+        throw new Error("Failed to create blog post");
+      }
+
+      setTitle("");
+      setContent("");
+      setImage(null);
+      setGenre("");
+      setTags("");
+    } catch (error) {
+      setError("Failed to create blog post. Please try again.");
+      imageUrl && (await deleteImage(imageUrl));
+      console.log(error);
+    } finally {
+      setTimeout(() => setIsLoading(false), 1500);
+    }
   };
 
   return (
@@ -48,8 +142,6 @@ const MainNewBlogComponent = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
-          pattern="[A-Za-z0-9\s]+"
-          title="Title should only contain alphanumeric characters and spaces"
           minLength={3}
           maxLength={200}
         />
@@ -120,7 +212,11 @@ const MainNewBlogComponent = () => {
       <div className="py-4" />
 
       {/* content tiptap */}
-      <Tiptap content={content} onChange={handleContentChange} />
+      <Tiptap
+        content={content}
+        onChange={handleContentChange}
+        handleSubmit={handleSubmit}
+      />
 
       {/* separators */}
       <div className="py-4" />

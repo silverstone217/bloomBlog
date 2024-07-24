@@ -19,9 +19,10 @@ import {
 type Props = {
   editor: Editor | null;
   content: string;
+  handleSubmit: () => Promise<void>;
 };
 
-const Toolbar = ({ editor, content }: Props) => {
+const Toolbar = ({ editor, content, handleSubmit }: Props) => {
   if (!editor) {
     return null;
   }
@@ -37,6 +38,7 @@ const Toolbar = ({ editor, content }: Props) => {
             e.preventDefault();
             editor.chain().focus().toggleBold().run();
           }}
+          type="button"
           className={
             editor.isActive("bold")
               ? "bg-sky-700 text-white p-2 rounded-lg"
@@ -55,6 +57,7 @@ const Toolbar = ({ editor, content }: Props) => {
               ? "bg-sky-700 text-white p-2 rounded-lg"
               : "text-sky-400"
           }
+          type="button"
         >
           <Italic className="w-5 h-5" />
         </button>
@@ -68,6 +71,7 @@ const Toolbar = ({ editor, content }: Props) => {
               ? "bg-sky-700 text-white p-2 rounded-lg"
               : "text-sky-400"
           }
+          type="button"
         >
           <Underline className="w-5 h-5" />
         </button>
@@ -76,6 +80,7 @@ const Toolbar = ({ editor, content }: Props) => {
             e.preventDefault();
             editor.chain().focus().toggleStrike().run();
           }}
+          type="button"
           className={
             editor.isActive("strike")
               ? "bg-sky-700 text-white p-2 rounded-lg"
@@ -89,6 +94,7 @@ const Toolbar = ({ editor, content }: Props) => {
             e.preventDefault();
             editor.chain().focus().toggleHeading({ level: 2 }).run();
           }}
+          type="button"
           className={
             editor.isActive("heading", { level: 2 })
               ? "bg-sky-700 text-white p-2 rounded-lg"
@@ -99,6 +105,7 @@ const Toolbar = ({ editor, content }: Props) => {
         </button>
 
         <button
+          type="button"
           onClick={(e) => {
             e.preventDefault();
             editor.chain().focus().toggleBulletList().run();
@@ -129,6 +136,7 @@ const Toolbar = ({ editor, content }: Props) => {
             e.preventDefault();
             editor.chain().focus().toggleBlockquote().run();
           }}
+          type="button"
           className={
             editor.isActive("blockquote")
               ? "bg-sky-700 text-white p-2 rounded-lg"
@@ -138,6 +146,7 @@ const Toolbar = ({ editor, content }: Props) => {
           <Quote className="w-5 h-5" />
         </button>
         <button
+          type="button"
           onClick={(e) => {
             e.preventDefault();
             editor.chain().focus().setCode().run();
@@ -155,6 +164,7 @@ const Toolbar = ({ editor, content }: Props) => {
             e.preventDefault();
             editor.chain().focus().undo().run();
           }}
+          type="button"
           className={
             editor.isActive("undo")
               ? "bg-sky-700 text-white p-2 rounded-lg"
@@ -168,6 +178,7 @@ const Toolbar = ({ editor, content }: Props) => {
             e.preventDefault();
             editor.chain().focus().redo().run();
           }}
+          type="button"
           className={
             editor.isActive("redo")
               ? "bg-sky-700 text-white p-2 rounded-lg"
@@ -179,8 +190,12 @@ const Toolbar = ({ editor, content }: Props) => {
       </div>
       {content && (
         <button
-          type="submit"
+          type="button"
           className="px-4 bg-sky-700 text-white py-2 rounded-md"
+          onClick={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
         >
           Add
         </button>

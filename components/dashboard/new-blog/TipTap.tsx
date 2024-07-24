@@ -7,9 +7,10 @@ import Underline from "@tiptap/extension-underline";
 type TipTapProps = {
   content: string;
   onChange: (reason: any) => void;
+  handleSubmit: () => Promise<void>;
 };
 
-const Tiptap = ({ content, onChange }: TipTapProps) => {
+const Tiptap = ({ content, onChange, handleSubmit }: TipTapProps) => {
   const handleChange = (newContent: string) => {
     onChange(newContent);
   };
@@ -29,7 +30,7 @@ const Tiptap = ({ content, onChange }: TipTapProps) => {
   return (
     <div className="w-full px-2">
       <p className="block font-medium text-gray-700 mb-1.5">Content</p>
-      <ToolBar editor={editor} content={content} />
+      <ToolBar editor={editor} content={content} handleSubmit={handleSubmit} />
       <EditorContent style={{ whiteSpace: "pre-line" }} editor={editor} />
     </div>
   );
