@@ -56,6 +56,7 @@ model User {
   role          String @default("user")
   tel           String?
   isBanned      Boolean @default(false)
+  blogs         Blog[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
@@ -82,4 +83,18 @@ model VerificationToken {
   updatedAt   DateTime @updatedAt
 
   @@unique([identifier, token])
+}
+
+model Blog{
+  id          String   @id @default(cuid())
+  title       String
+  content     String
+  image       String
+  isBanned    Boolean @default(false)
+  genre       String
+  tags        String[]
+  authorId    String   
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

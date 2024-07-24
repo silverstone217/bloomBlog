@@ -2,11 +2,17 @@
 import React, { useEffect, useState } from "react";
 import Tiptap from "./TipTap";
 import Image from "next/image";
+import { genreData } from "@/utils/data";
 
 const MainNewBlogComponent = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState<File | null>(null);
+  const [genre, setGenre] = useState("");
+  const [tags, setTags] = useState("");
+
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [isClient, setIsClient] = useState(false);
 
@@ -113,7 +119,64 @@ const MainNewBlogComponent = () => {
       {/* separators */}
       <div className="py-4" />
 
+      {/* content tiptap */}
       <Tiptap content={content} onChange={handleContentChange} />
+
+      {/* separators */}
+      <div className="py-4" />
+
+      {/* genre */}
+      <div className="grid gap-1.5">
+        <label htmlFor="genre" className="block font-medium text-gray-700">
+          Genre
+        </label>
+        <select
+          className="focus:ring-blue-500 focus:border-blue-500 block w-full 
+           border-gray-700 border rounded-md h-12 px-2 bg-transparent overflow-x-hidden overflow-y-auto"
+          id="genre"
+          name="genre"
+          value={genre}
+          onChange={(e) => setGenre(e.target.value)}
+          required
+          title="Select Genre of post"
+          disabled={isLoading}
+        >
+          <option disabled value="" className="text-gray-500">
+            Select genre
+          </option>
+          {genreData.map((gnr, i) => (
+            <option key={gnr} value={gnr} className="capitalize">
+              {gnr}
+            </option>
+          ))}
+        </select>
+      </div>
+      {/* separators */}
+      <div className="py-4" />
+      {/* tags */}
+      <div className="grid gap-1.5">
+        <label
+          htmlFor="tags"
+          className="block font-medium line-clamp-1 text-gray-700"
+        >
+          Tags{" "}
+          <span className="opacity-65 text-sm">
+            #football #dragonBallZ #MCU #spiderman
+          </span>
+        </label>
+        <input
+          className="focus:ring-blue-500 focus:border-blue-500 block w-full 
+               border-gray-700 border rounded-md h-12 px-2 bg-transparent"
+          type="text"
+          placeholder="Enter #tag separated by space..."
+          name="tags"
+          value={tags}
+          onChange={(e) => setTags(e.target.value)}
+          required
+          title="Enter #tag separated by space..."
+          disabled={isLoading}
+        />
+      </div>
     </form>
   );
 };
