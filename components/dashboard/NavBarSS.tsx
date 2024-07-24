@@ -55,6 +55,7 @@ const NavBarSS = () => {
   const handleLogout = async () => {
     try {
       await signOut();
+      setIsHeaderHidden(false);
     } catch (error) {
       console.log(error);
     }
@@ -105,6 +106,7 @@ const NavBarSS = () => {
           <Link
             key={index}
             href={page.href}
+            onClick={() => setIsHeaderHidden(false)}
             className={`hover:opacity-70 flex-shrink-0 text-2xl
               transition-all duration-500 ease-in-out
               ${pathname === page.href ? "text-gray-600" : "text-gray-200"}
@@ -119,6 +121,7 @@ const NavBarSS = () => {
       <div className="w-full flex-shrink-0 flex flex-col gap-1">
         <Link
           href={"/dashboard/profile"}
+          onClick={() => setIsHeaderHidden(false)}
           className="flex flex-col items-center justify-center gap-1"
         >
           <AvatarUserProfile />
