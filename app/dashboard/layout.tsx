@@ -1,8 +1,17 @@
+import { auth } from "@/auth";
 import AsideNavBarBS from "@/components/dashboard/AsideNavBarBS";
 import NavBarSS from "@/components/dashboard/NavBarSS";
+import { redirect } from "next/navigation";
 import React, { ReactNode } from "react";
 
-const DashboardLayout = ({ children }: { children: ReactNode }) => {
+const DashboardLayout = async ({ children }: { children: ReactNode }) => {
+  const session = await auth();
+  const user = session?.user;
+
+  if (!user) {
+    return redirect("/");
+  }
+
   return (
     <div className="w-full relative h-dvh overflow-hidden flex items-start justify-start">
       <AsideNavBarBS />

@@ -26,17 +26,22 @@ const pagesLinks = [
   },
   {
     label: "My Blogs",
-    href: "/blogs",
+    href: "/dashboard/blogs",
     icon: NotebookText,
   },
   //   {
   //     label: "Profile",
-  //     href: "/profile",
+  //     href: "/dashboard/profile",
   //   },
   {
     label: "Settings",
     href: "/settings",
     icon: Cog,
+  },
+  {
+    label: "New Blog +",
+    href: "/dashboard/new-blog",
+    icon: X,
   },
 ];
 
@@ -113,7 +118,7 @@ const NavBarSS = () => {
       {/* profile and logout */}
       <div className="w-full flex-shrink-0 flex flex-col gap-1">
         <Link
-          href={"/profile"}
+          href={"/dashboard/profile"}
           className="flex flex-col items-center justify-center gap-1"
         >
           <AvatarUserProfile />

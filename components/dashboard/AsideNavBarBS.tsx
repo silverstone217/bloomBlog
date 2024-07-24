@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   LogIn,
   LogOut,
+  NotebookPen,
   NotebookText,
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
@@ -27,7 +28,7 @@ const pagesLinks = [
   },
   {
     label: "My Blogs",
-    href: "/blogs",
+    href: "/dashboard/blogs",
     icon: NotebookText,
   },
   //   {
@@ -36,7 +37,7 @@ const pagesLinks = [
   //   },
   {
     label: "Settings",
-    href: "/settings",
+    href: "/dashboard/settings",
     icon: Cog,
   },
 ];
@@ -125,11 +126,38 @@ const AsideNavBarBS = () => {
             </span>
             <span className="transition-all duration-300 ease-in-out flex-shrink-0">
               {page.icon && (
-                <page.icon className={`${resizeAside ? "size-8" : "size-6"}`} />
+                <page.icon className={`${resizeAside ? "size-7" : "size-6"}`} />
               )}
             </span>
           </Link>
         ))}
+
+        {/* separators */}
+        <div className="py-4" />
+
+        <Link
+          href={"/dashboard/new-blog"}
+          className="
+        border px-4 py-2 rounded text-sm
+        flex items-center justify-center gap-4
+        hover:text-blue-500 hover:border-blue-500
+        transition-all duration-300 ease-in-out
+        "
+        >
+          <span
+            className={`w-[40%] lg:text-[16px] xl:text-[18px] flex-shrink-0 ${
+              resizeAside ? "hidden" : "block"
+            } transition-all duration-300 ease-in-out
+             `}
+          >
+            New blog
+          </span>
+          <NotebookPen
+            className={`${
+              resizeAside ? "size-8" : "size-6"
+            } transition-all duration-300 ease-in-out flex-shrink-0`}
+          />
+        </Link>
       </div>
 
       {/* separators */}
@@ -138,7 +166,7 @@ const AsideNavBarBS = () => {
       {/* profile and logout */}
       <div className="w-full flex-shrink-0 flex flex-col gap-1">
         <Link
-          href={"/profile"}
+          href={"/dashboard/profile"}
           className="flex flex-col items-center justify-center gap-1"
         >
           <AvatarUserProfile />
@@ -195,34 +223,3 @@ const AsideNavBarBS = () => {
 };
 
 export default AsideNavBarBS;
-
-// <button
-// className={`border px-4 py-1 rounded mt-2 text-sm flex items-center justify-center
-// transition-all duration-500 ease-in-out
-// ${
-//   !user
-//     ? "text-gray-200 border-gray-500"
-//     : "text-red-500 border-red-500"
-// }
-// ${resizeAside ? "px-1 " : "px-4 "}
-// `}
-// >
-// {user ? (
-//   <div onClick={handleLogout} className="w-full h-full">
-//     {!resizeAside ? (
-//       <span>Sign out</span>
-//     ) : (
-//       <LogOut className="size-8" />
-//     )}
-//   </div>
-// ) : (
-//   <Link href={"/login"} className="w-full h-full">
-//     {" "}
-//     {!resizeAside ? (
-//       <span>Sign Up</span>
-//     ) : (
-//       <LogIn className="size-8" />
-//     )}
-//   </Link>
-// )}
-// </button>
