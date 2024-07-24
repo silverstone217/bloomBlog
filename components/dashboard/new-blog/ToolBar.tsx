@@ -25,7 +25,7 @@ const Toolbar = ({ editor, content }: Props) => {
   if (!editor) {
     return null;
   }
-  console.log({ content });
+
   return (
     <div
       className="px-4 py-3 rounded-tl-md rounded-tr-md flex justify-between items-start
@@ -177,7 +177,7 @@ const Toolbar = ({ editor, content }: Props) => {
           <Redo className="w-5 h-5" />
         </button>
       </div>
-      {content !== "<p></p>" && (
+      {content && (
         <button
           type="submit"
           className="px-4 bg-sky-700 text-white py-2 rounded-md"
