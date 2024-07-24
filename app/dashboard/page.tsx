@@ -29,7 +29,10 @@ const dashboardPage = async () => {
         blogs.map((blog) => (
           <div key={blog.id} className="bg-slate-500 p-2 space-y-4">
             <h2 className="font-bold text-3xl tracking-wide ">{blog.title}</h2>
-            <p dangerouslySetInnerHTML={{ __html: blog.content }} />
+            <p
+              dangerouslySetInnerHTML={{ __html: blog.content }}
+              className="whitespace-pre-line"
+            />
             <div className="flex items-start gap-2 flex-col">
               <p>{blog.genre}</p>
               <p>{blog.tags}</p>
