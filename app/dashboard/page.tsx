@@ -25,22 +25,26 @@ const dashboardPage = async () => {
 
       <div className="py-4" />
 
-      {blogs &&
-        blogs.map((blog) => (
-          <div key={blog.id} className="bg-slate-500 p-2 space-y-4">
-            <h2 className="font-bold text-3xl tracking-wide ">{blog.title}</h2>
-            <p
-              dangerouslySetInnerHTML={{ __html: blog.content }}
-              className="whitespace-pre-line"
-            />
-            <div className="flex items-start gap-2 flex-col">
-              <p>{blog.genre}</p>
-              <p>{blog.tags}</p>
-            </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {blogs &&
+          blogs.map((blog) => (
+            <div key={blog.id} className="bg-slate-500 p-2 space-y-4">
+              <h2 className="font-bold text-3xl tracking-wide ">
+                {blog.title}
+              </h2>
+              <p
+                dangerouslySetInnerHTML={{ __html: blog.content }}
+                className="whitespace-pre-line"
+              />
+              <div className="flex items-start gap-2 flex-col">
+                <p>{blog.genre}</p>
+                <p>{blog.tags}</p>
+              </div>
 
-            <p>{blog.author.name}</p>
-          </div>
-        ))}
+              <p>{blog.author.name}</p>
+            </div>
+          ))}
+      </div>
     </div>
   );
 };
