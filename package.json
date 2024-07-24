@@ -12,6 +12,10 @@
   "dependencies": {
     "@auth/prisma-adapter": "^2.4.1",
     "@prisma/client": "^5.17.0",
+    "@tiptap/extension-underline": "^2.5.5",
+    "@tiptap/pm": "^2.5.5",
+    "@tiptap/react": "^2.5.5",
+    "@tiptap/starter-kit": "^2.5.5",
     "firebase": "^10.12.4",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.414.0",

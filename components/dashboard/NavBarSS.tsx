@@ -62,7 +62,7 @@ const NavBarSS = () => {
   return (
     <div
       className={`lg:hidden absolute z-50 w-full p-4 ${
-        !isHeaderHidden ? "h-12" : "h-full bg-[#000]"
+        !isHeaderHidden ? "h-12 bg-[#121219]" : "h-full bg-[#000]"
       }
       transition-all duration-500 ease-in-out overflow-hidden
       flex flex-col items-start justify-between
